@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq-telegram
+    container_name: rabbitmq-telegram
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+
+#  coin_db:
+#    image: postgres
+#    container_name: coin_db
+#    environment:
+#      POSTGRES_USER: ${DB_USERNAME}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#      POSTGRES_DB: coin
+#    ports:
+#      - "${EXTERNAL_DB_PORT}:5432"
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d coin" ]
+#      interval: 8s
+#      timeout: 4s
+#      retries: 4
+
+
+volumes:
+  rabbitmq_data:

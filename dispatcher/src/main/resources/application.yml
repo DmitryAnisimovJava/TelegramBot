@@ -1,0 +1,18 @@
+telegram:
+  bot:
+    username: coin_control_mergeteam_bot
+    token: 7199810010:AAFZ6eDp-g7IeuDNtTAPgnMaHXjMc_EbkWg
+    name: CoinControl
+server:
+  port: 8085
+logging:
+  file:
+    path: dispatcher/logs
+  level:
+    com.mergeteam: debug
+spring:
+  rabbitmq:
+    username: admin
+    password: coincontrol
+    host: localhost
+    port: 5672
