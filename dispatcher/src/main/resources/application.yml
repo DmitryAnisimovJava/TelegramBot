@@ -7,7 +7,7 @@ server:
   port: 8085
 logging:
   file:
-    path: dispatcher/logs
+    name: dispatcher/logs/dispatcher.log
   level:
     com.mergeteam: debug
 spring:

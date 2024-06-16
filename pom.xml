@@ -11,11 +11,14 @@
     <modules>
         <module>dispatcher</module>
         <module>common-rabbit</module>
+        <module>node</module>
+        <module>common-jpa</module>
     </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <telegrambot.starter.version>6.9.7.1</telegrambot.starter.version>
     </properties>
 
     <parent>
