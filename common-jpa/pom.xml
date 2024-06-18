@@ -10,6 +10,12 @@
     <packaging>war</packaging>
     <name>common-jpa Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -17,6 +23,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>common-jpa</finalName>
+    <finalName>common-jpa</finalName>
     </build>
 </project>

@@ -9,4 +9,9 @@
     <artifactId>common-rabbit</artifactId>
     <name>Archetype - common-rabbit</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
 </project>
