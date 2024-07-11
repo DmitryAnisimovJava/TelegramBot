@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class UpdateProducerImpl implements UpdateProducer {
 
     private final RabbitTemplate rabbitTemplate;
+
     @Override
     public void produce(RabbitQueueName rabbitQueueName, Update update) {
         log.info(update.getMessage().getText());

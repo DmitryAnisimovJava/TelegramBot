@@ -14,24 +14,24 @@ import static com.mergeteam.RabbitQueueName.Messages;
 @Slf4j
 public class ConsumerServiceImpl implements ConsumerService {
 
-    private final MessageService messageService;
+    private final MainService mainService;
 
     @Override
     @RabbitListener(queues = Messages.TEXT_UPDATE_VALUE)
     public void consumeTextMessageUpdate(Update update) {
         log.info("Message consumed");
-        messageService.processTextMessage(update);
+        mainService.processTextMessage(update);
     }
 
     @Override
     @RabbitListener(queues = Messages.DOC_UPDATE_VALUE)
     public void consumeDocMessageUpdate(Update update) {
-        messageService.processDocMessage(update);
+        mainService.processDocMessage(update);
     }
 
     @Override
     @RabbitListener(queues = Messages.PHOTO_UPDATE_VALUE)
     public void consumePhotoMessageUpdate(Update update) {
-        messageService.processPhotoMessage(update);
+        mainService.processPhotoMessage(update);
     }
 }

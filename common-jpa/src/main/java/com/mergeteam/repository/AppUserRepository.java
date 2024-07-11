@@ -1,4 +1,4 @@
-package com.mergeteam.entity.service;
+package com.mergeteam.repository;
 
 import com.mergeteam.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;

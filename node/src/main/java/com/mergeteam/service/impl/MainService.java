@@ -1,36 +1,41 @@
 package com.mergeteam.service.impl;
 
+import com.mergeteam.entity.AppDocument;
 import com.mergeteam.entity.AppUser;
 import com.mergeteam.entity.RawData;
-import com.mergeteam.entity.enums.UserState;
-import com.mergeteam.entity.service.AppUserRepository;
+import com.mergeteam.enums.UserState;
+import com.mergeteam.repository.AppUserRepository;
 import com.mergeteam.repository.RawDataRepository;
 import com.mergeteam.service.BasicRawDataService;
+import com.mergeteam.service.FileService;
 import com.mergeteam.service.ProducerService;
+import com.mergeteam.service.exception.UploadFileException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.mergeteam.entity.enums.UserState.BASIC_STATE;
-import static com.mergeteam.entity.enums.UserState.WAIT_FOR_EMAIL_STATE;
+import static com.mergeteam.enums.UserState.BASIC_STATE;
+import static com.mergeteam.enums.UserState.WAIT_FOR_EMAIL_STATE;
 import static com.mergeteam.service.enums.ServiceCommands.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class MessageService implements BasicRawDataService {
+public class MainService implements BasicRawDataService {
 
     private final RawDataRepository rawDataRepository;
     private final AppUserRepository appUserRepository;
     private final ProducerService producerService;
+    private final FileService fileService;
 
     private final Map<String, Function<AppUser, String>> defineMessage =
             Map.of(HELP.toString(), this::help,
@@ -60,6 +65,7 @@ public class MessageService implements BasicRawDataService {
     }
 
     @Override
+    @Transactional
     public void processPhotoMessage(Update update) {
         this.saveRawData(update);
         AppUser appUser = this.findOrSaveAppUser(update);
@@ -75,23 +81,32 @@ public class MessageService implements BasicRawDataService {
     }
 
     @Override
+    @Transactional
     public void processDocMessage(Update update) {
         this.saveRawData(update);
         AppUser appUser = this.findOrSaveAppUser(update);
-        Long chatId = update.getMessage().getChatId();
+        Message telegramMessage = update.getMessage();
+        Long chatId = telegramMessage.getChatId();
         if (isNotAllowToSendContent(chatId, appUser)) {
             return;
         }
-
-        //TODO add doc save method
-
-        String answer = "Doc succefully saved";
+        String answer;
+        try {
+            AppDocument appDocument = this.fileService.processDoc(telegramMessage);
+            //TODO добавить генерацию ссылки
+            answer = """
+                    Документ успешно сохранен!
+                    Ссылка на скачивание: http://site-download.ru/link""";
+        } catch (UploadFileException e) {
+            log.error("File {} download exception", telegramMessage.getDocument().getFileName());
+            answer = "К сожалению, загрузка файла не удалась. Повторите попытку";
+        }
         this.sendMessage(answer, chatId);
     }
 
     private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
         UserState userState = appUser.getUserState();
-        if (!appUser.getIsActive()) {
+        if (!appUser.isActive()) {
             String error = "Please registry or confirm your email for access to send photo or documents";
             this.sendMessage(error, chatId);
             return true;

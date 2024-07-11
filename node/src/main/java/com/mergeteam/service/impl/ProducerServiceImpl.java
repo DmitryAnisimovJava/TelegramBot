@@ -7,6 +7,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import java.io.IOException;
+
 import static com.mergeteam.RabbitQueueName.*;
 
 @Service
@@ -18,4 +20,5 @@ public class ProducerServiceImpl implements ProducerService {
     public void produceAnswer(SendMessage message) {
         rabbitTemplate.convertAndSend(ANSWER_MESSAGE.getQueueName(), message);
     }
+
 }

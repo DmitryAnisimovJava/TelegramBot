@@ -1,4 +1,4 @@
-package com.mergeteam.entity.enums;
+package com.mergeteam.enums;
 
 public enum UserState {
     BASIC_STATE,

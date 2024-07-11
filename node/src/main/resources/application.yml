@@ -18,3 +18,9 @@ spring:
     url: jdbc:postgresql://localhost:5555/bot
   jpa:
     generate-ddl: true
+telegram:
+  bot:
+    token: 7199810010:AAFZ6eDp-g7IeuDNtTAPgnMaHXjMc_EbkWg
+  service:
+    file_info.uri: https://api.telegram.org/bot{token}/getFile?file_id={fileId}
+    file_storage.uri: https://api.telegram.org/file/bot{token}/{filePath}

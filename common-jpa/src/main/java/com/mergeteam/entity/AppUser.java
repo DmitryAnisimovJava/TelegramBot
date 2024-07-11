@@ -1,6 +1,6 @@
 package com.mergeteam.entity;
 
-import com.mergeteam.entity.enums.UserState;
+import com.mergeteam.enums.UserState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +28,8 @@ public class AppUser {
     private String lastName;
     private String username;
     private String email;
-    private Boolean isActive;
+    @Column(nullable = false)
+    private boolean isActive;
     @Enumerated(EnumType.STRING)
     private UserState userState;
 }
