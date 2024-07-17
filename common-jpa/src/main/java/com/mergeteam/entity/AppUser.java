@@ -1,16 +1,15 @@
 package com.mergeteam.entity;
 
 import com.mergeteam.enums.UserState;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

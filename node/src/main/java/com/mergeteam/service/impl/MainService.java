@@ -1,6 +1,7 @@
 package com.mergeteam.service.impl;
 
 import com.mergeteam.entity.AppDocument;
+import com.mergeteam.entity.AppPhoto;
 import com.mergeteam.entity.AppUser;
 import com.mergeteam.entity.RawData;
 import com.mergeteam.enums.UserState;
@@ -19,6 +20,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -69,14 +76,29 @@ public class MainService implements BasicRawDataService {
     public void processPhotoMessage(Update update) {
         this.saveRawData(update);
         AppUser appUser = this.findOrSaveAppUser(update);
-        Long chatId = update.getMessage().getChatId();
+        Message message = update.getMessage();
+        Long chatId = message.getChatId();
         if (isNotAllowToSendContent(chatId, appUser)) {
             return;
         }
-
-        //TODO add photo save method
-
-        String answer = "Photo succefully saved";
+        String answer;
+        try {
+            List<AppPhoto> appPhotos = this.fileService.processPhotos(message);
+            //TODO добавить генерацию ссылки
+            byte[] binaryFile = appPhotos.get(3).getBinaryFile();
+            try {
+                BufferedImage read = ImageIO.read(new ByteArrayInputStream(binaryFile));
+                ImageIO.write(read, "jpg", new File("C:\\Users\\Anisi\\Desktop\\output.jpg"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            answer = """
+                    Фото успешно сохранено!
+                    Ссылка на скачивание: http://site-download.ru/link""";
+        } catch (UploadFileException e) {
+            log.error("Photos download exception");
+            answer = "К сожалению, загрузка фото не удалась. Повторите попытку";
+        }
         this.sendMessage(answer, chatId);
     }
 
