@@ -1,0 +1,15 @@
+server:
+  port: 8090
+logging:
+  file:
+    name: rest-service/logs/rest.log
+  level:
+    com.mergeteam: debug
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: bot
+    password: password
+    url: jdbc:postgresql://localhost:5555/bot
+  jpa:
+    generate-ddl: true
