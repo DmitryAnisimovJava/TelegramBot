@@ -15,7 +15,6 @@ import javax.annotation.PostConstruct;
 import static com.mergeteam.RabbitQueueName.*;
 
 @Configuration
-@RequiredArgsConstructor
 public class RabbitConfiguration {
 
     @Bean

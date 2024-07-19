@@ -13,3 +13,5 @@ spring:
     url: jdbc:postgresql://localhost:5555/bot
   jpa:
     generate-ddl: true
+crypto:
+  salt: salt12AQd2DQjifsEr34fs

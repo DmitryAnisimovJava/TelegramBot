@@ -10,6 +10,7 @@ import com.mergeteam.repository.RawDataRepository;
 import com.mergeteam.service.BasicRawDataService;
 import com.mergeteam.service.FileService;
 import com.mergeteam.service.ProducerService;
+import com.mergeteam.service.enums.LinkType;
 import com.mergeteam.service.exception.UploadFileException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,17 +85,10 @@ public class MainService implements BasicRawDataService {
         String answer;
         try {
             List<AppPhoto> appPhotos = this.fileService.processPhotos(message);
-            //TODO добавить генерацию ссылки
-            byte[] binaryFile = appPhotos.get(3).getBinaryFile();
-            try {
-                BufferedImage read = ImageIO.read(new ByteArrayInputStream(binaryFile));
-                ImageIO.write(read, "jpg", new File("C:\\Users\\Anisi\\Desktop\\output.jpg"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            String link = fileService.generateLink(appPhotos.get(0).getId(), LinkType.GET_PHOTO);
             answer = """
                     Фото успешно сохранено!
-                    Ссылка на скачивание: http://site-download.ru/link""";
+                    Ссылка на скачивание: %s""".formatted(link);
         } catch (UploadFileException e) {
             log.error("Photos download exception");
             answer = "К сожалению, загрузка фото не удалась. Повторите попытку";
@@ -115,10 +109,10 @@ public class MainService implements BasicRawDataService {
         String answer;
         try {
             AppDocument appDocument = this.fileService.processDoc(telegramMessage);
-            //TODO добавить генерацию ссылки
+            String link = fileService.generateLink(appDocument.getId(), LinkType.GET_DOCUMENT);
             answer = """
                     Документ успешно сохранен!
-                    Ссылка на скачивание: http://site-download.ru/link""";
+                    Ссылка на скачивание: %s""".formatted(link);
         } catch (UploadFileException e) {
             log.error("File {} download exception", telegramMessage.getDocument().getFileName());
             answer = "К сожалению, загрузка файла не удалась. Повторите попытку";

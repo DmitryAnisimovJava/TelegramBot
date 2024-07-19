@@ -12,5 +12,4 @@ public interface FileService {
 
     Optional<AppPhoto> getPhoto(String id);
 
-    Optional<FileSystemResource> getFileSystemResource(byte[] bytes);
 }

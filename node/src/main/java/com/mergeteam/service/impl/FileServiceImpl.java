@@ -3,14 +3,15 @@ package com.mergeteam.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mergeteam.CryptoTool;
 import com.mergeteam.entity.AppDocument;
 import com.mergeteam.entity.AppPhoto;
 import com.mergeteam.repository.AppDocumentRepository;
 import com.mergeteam.repository.AppPhotoRepository;
 import com.mergeteam.service.FileService;
+import com.mergeteam.service.enums.LinkType;
 import com.mergeteam.service.exception.UploadFileException;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -39,9 +40,12 @@ public class FileServiceImpl implements FileService {
     private String fileInfoUri;
     @Value("${telegram.service.file_storage.uri}")
     private String fileStorageUri;
+    @Value("${link.address}")
+    private String linkAddress;
     private final AppDocumentRepository appDocumentRepository;
     private final ObjectMapper objectMapper;
     private final AppPhotoRepository appPhotoRepository;
+    private final CryptoTool cryptoTool;
 
     @Override
     public AppDocument processDoc(Message telegramMessage) {
@@ -60,19 +64,25 @@ public class FileServiceImpl implements FileService {
     public List<AppPhoto> processPhotos(Message telegramMessage) throws UploadFileException {
         List<PhotoSize> photos = telegramMessage.getPhoto();
         List<byte[]> photosInBytes = photos.stream()
+                .limit(1)
                 .map(PhotoSize::getFileId)
                 .map(this::getFilePath)
                 .map(FileServiceImpl::checkStatus)
                 .map(this::getFileInBytes)
                 .toList();
         List<AppPhoto> appPhotos = new ArrayList<>();
-        for (int i = 0; i < photos.size(); i++) {
+        for (int i = 0; i < photosInBytes.size(); i++) {
             AppPhoto appPhoto = this.buildTransientAppPhoto(photos.get(i), photosInBytes.get(i));
             this.appPhotoRepository.save(appPhoto);
             appPhotos.add(appPhoto);
         }
         return appPhotos;
+    }
 
+    @Override
+    public String generateLink(Long id, LinkType linkType) {
+        String hash = cryptoTool.hashOf(id);
+        return "http://" + linkAddress + linkType + "?id=" + hash;
     }
 
     private static ResponseEntity<String> checkStatus(ResponseEntity<String> response) {
