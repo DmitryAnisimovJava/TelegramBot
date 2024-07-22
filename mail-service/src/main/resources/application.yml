@@ -1,0 +1,10 @@
+server:
+  port: 8099
+spring:
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    protocol: smtps
+    username: project.pet@yandex.ru
+    password: mueekkfqoifgmexr
+mail.activation.uri: http://127.0.0.1:8090/mail/activation?id={id}
