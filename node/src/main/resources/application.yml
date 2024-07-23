@@ -24,6 +24,7 @@ telegram:
   service:
     file_info.uri: https://api.telegram.org/bot{token}/getFile?file_id={fileId}
     file_storage.uri: https://api.telegram.org/file/bot{token}/{filePath}
+    mail.uri: http://127.0.0.1:8099/mail/send
 link:
   address: 127.0.0.1:8090
 crypto:

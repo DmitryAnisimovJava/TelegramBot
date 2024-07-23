@@ -1,4 +1,4 @@
-package com.mergeteam;
+package com.mergeteam.crypto;
 
 import org.hashids.Hashids;
 

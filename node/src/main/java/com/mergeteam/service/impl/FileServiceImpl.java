@@ -3,7 +3,7 @@ package com.mergeteam.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mergeteam.CryptoTool;
+import com.mergeteam.crypto.CryptoTool;
 import com.mergeteam.entity.AppDocument;
 import com.mergeteam.entity.AppPhoto;
 import com.mergeteam.repository.AppDocumentRepository;

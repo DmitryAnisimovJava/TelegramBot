@@ -21,11 +21,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -144,7 +139,7 @@ public class MainService implements BasicRawDataService {
 
     public AppUser findOrSaveAppUser(Update update) {
         User telegramUser = update.getMessage().getFrom();
-        return appUserRepository.findAppUserByTelegramUserId(telegramUser.getId())
+        return appUserRepository.findByTelegramUserId(telegramUser.getId())
                 .orElseGet(() -> {
                     AppUser user = AppUser.builder()
                             .telegramUserId(telegramUser.getId())

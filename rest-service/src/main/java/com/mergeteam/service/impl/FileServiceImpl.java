@@ -1,6 +1,6 @@
 package com.mergeteam.service.impl;
 
-import com.mergeteam.CryptoTool;
+import com.mergeteam.crypto.CryptoTool;
 import com.mergeteam.entity.AppDocument;
 import com.mergeteam.entity.AppPhoto;
 import com.mergeteam.repository.AppDocumentRepository;
@@ -8,12 +8,8 @@ import com.mergeteam.repository.AppPhotoRepository;
 import com.mergeteam.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
