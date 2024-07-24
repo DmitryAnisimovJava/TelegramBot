@@ -25,7 +25,7 @@ public class UserActivationServiceImpl implements UserActivationService {
         Optional<AppUser> userOptional = appUserRepository.findById(id);
         return userOptional.map(user -> {
             user.setActive(true);
-            appUserRepository.flush();
+            appUserRepository.save(user);
             return true;
         }).orElse(false);
     }

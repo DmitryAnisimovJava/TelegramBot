@@ -7,6 +7,7 @@ import com.mergeteam.entity.RawData;
 import com.mergeteam.enums.UserState;
 import com.mergeteam.repository.AppUserRepository;
 import com.mergeteam.repository.RawDataRepository;
+import com.mergeteam.service.AppUserService;
 import com.mergeteam.service.BasicRawDataService;
 import com.mergeteam.service.FileService;
 import com.mergeteam.service.ProducerService;
@@ -39,6 +40,7 @@ public class MainService implements BasicRawDataService {
     private final AppUserRepository appUserRepository;
     private final ProducerService producerService;
     private final FileService fileService;
+    private final AppUserService appUserService;
 
     private final Map<String, Function<AppUser, String>> defineMessage =
             Map.of(HELP.toString(), this::help,
@@ -58,7 +60,7 @@ public class MainService implements BasicRawDataService {
         } else if (BASIC_STATE.equals(userState)) {
             output = this.defineMessage.getOrDefault(text, this::commandNotFound).apply(appUser);
         } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
-            //TODO create email sender
+            output = appUserService.setEmail(appUser, text);
         } else {
             log.error("Unknown user state: {}", userState);
             output = "Неизвестная ошибка! Введите /cancel и попробуйте снова";
@@ -147,8 +149,7 @@ public class MainService implements BasicRawDataService {
                             .lastName(telegramUser.getLastName())
                             .username(telegramUser.getUserName())
                             .userState(BASIC_STATE)
-                            //TODO change later, when registration created
-                            .isActive(true)
+                            .isActive(false)
                             .build();
                     return appUserRepository.save(user);
                 });
@@ -166,8 +167,7 @@ public class MainService implements BasicRawDataService {
     }
 
     private String registration(AppUser appUser) {
-        //TODO регистрация
-        return "Сделать регистрацию";
+        return appUserService.registerUser(appUser);
     }
 
 
