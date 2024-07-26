@@ -1,0 +1,11 @@
+spring:
+  liquibase:
+    database-change-log-lock-table: DATABASECHANGELOGLOCK_COMMONJPA
+    database-change-log-table: DATABASECHANGELOG_COMMONJPA
+    default-schema: liquibase_logs
+    change-log: classpath:/db/changelog.jpa/db.changelog-master.yaml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: bot
+    password: password
+    url: jdbc:postgresql://localhost:5555/bot

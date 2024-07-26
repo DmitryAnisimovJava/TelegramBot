@@ -18,6 +18,11 @@ spring:
     url: jdbc:postgresql://localhost:5555/bot
   jpa:
     generate-ddl: true
+  liquibase:
+    database-change-log-lock-table: DATABASECHANGELOGLOCK_NODE
+    database-change-log-table: DATABASECHANGELOG_NODE
+    default-schema: liquibase_logs
+    change-log: classpath:/db/changelog.node/db.changelog-master.yaml
 telegram:
   bot:
     token: 7199810010:AAFZ6eDp-g7IeuDNtTAPgnMaHXjMc_EbkWg

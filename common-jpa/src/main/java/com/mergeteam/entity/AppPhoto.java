@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "app_photo")
+@Table(name = "app_photo", schema = "telegram_data")
 public class AppPhoto {
 
     @Id

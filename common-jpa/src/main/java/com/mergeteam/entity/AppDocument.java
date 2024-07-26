@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "app_document")
+@Table(name = "app_document", schema = "telegram_data")
 public class AppDocument {
 
     @Id

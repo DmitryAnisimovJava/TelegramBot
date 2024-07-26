@@ -14,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "raw_data")
+@Table(name = "raw_data", schema = "audit")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class RawData {
 

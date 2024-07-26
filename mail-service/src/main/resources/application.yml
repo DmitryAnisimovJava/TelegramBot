@@ -6,5 +6,5 @@ spring:
     port: 465
     protocol: smtps
     username: project.pet@yandex.ru
-    password:
+    password: mueekkfqoifgmexr
 mail.activation.uri: http://127.0.0.1:8090/user/activation?id={id}

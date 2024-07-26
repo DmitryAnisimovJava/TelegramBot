@@ -18,4 +18,4 @@ spring:
     port: 5672
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
