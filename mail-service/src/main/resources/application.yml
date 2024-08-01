@@ -1,10 +1,12 @@
 server:
   port: 8099
 spring:
+  config:
+    import: optional:file:.env[.properties]
   mail:
     host: smtp.yandex.ru
     port: 465
     protocol: smtps
     username: project.pet@yandex.ru
-    password: mueekkfqoifgmexr
+    password: ${MAIL_PASSWORD}
 mail.activation.uri: http://127.0.0.1:8090/user/activation?id={id}
