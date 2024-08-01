@@ -3,8 +3,11 @@ telegram:
     username: coin_control_mergeteam_bot
     token: 7199810010:AAFZ6eDp-g7IeuDNtTAPgnMaHXjMc_EbkWg
     name: CoinControl
+    uri: https://854c-5-16-116-38.ngrok-free.app
 server:
   port: 8085
+  ssl:
+    enabled: false
 logging:
   file:
     name: dispatcher/logs/dispatcher.log

@@ -1,7 +1,6 @@
 package com.mergeteam.service.impl;
 
-import com.mergeteam.RabbitQueueName;
-import com.mergeteam.controller.UpdateController;
+import com.mergeteam.controller.UpdateProcessor;
 import com.mergeteam.service.AnswerConsumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,11 +13,11 @@ import static com.mergeteam.RabbitQueueName.*;
 @RequiredArgsConstructor
 public class AnswerConsumerImpl implements AnswerConsumer {
 
-    private final UpdateController updateController;
+    private final UpdateProcessor updateProcessor;
 
     @Override
     @RabbitListener(queues = Messages.ANSWER_VALUE)
     public void consume(SendMessage sendMessage) {
-        updateController.setView(sendMessage);
+        updateProcessor.setView(sendMessage);
     }
 }

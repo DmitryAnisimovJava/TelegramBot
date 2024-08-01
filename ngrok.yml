@@ -1,0 +1,5 @@
+version: "2"
+tunnels:
+  bot:
+    proto: http
+    addr: http://localhost:8085
